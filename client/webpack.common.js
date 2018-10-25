@@ -26,7 +26,7 @@ module.exports = {
         }],
       },
       {
-        test: /\.s(a|c)ss%/,
+        test: /\.s(a|c)ss$/,
         use: [
           {
             loader: 'style-loader',
