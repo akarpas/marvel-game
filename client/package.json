@@ -9,7 +9,14 @@
   },
   "author": "Andreas Karpasitis",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-hot-loader": "^4.3.11",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.1"
+  },
   "devDependencies": {
     "eslint": "^5.7.0",
     "eslint-config-airbnb": "^17.1.0",
