@@ -9,8 +9,8 @@ import style from './index.scss';
 
 const Application = () => {
   ReactDOM.render(
-    <div>
-      <Provider className={style.appContainer}>
+    <div className={style.appContainer}>
+      <Provider>
         <App />
       </Provider>
     </div>,
