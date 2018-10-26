@@ -14,6 +14,7 @@ const Application = () => {
         <App />
       </Provider>
     </div>,
+    document.getElementById('app'),
   );
 };
 
