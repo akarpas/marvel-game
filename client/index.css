@@ -1,3 +1,27 @@
+@font-face {
+  font-family: MarvelBold;
+  weight: 700;
+  src: url(./assets/fonts/Marvel-Bold.ttf);
+}
+
+@font-face {
+  font-family: MarvelBoldItalic;
+  weight: 700;
+  src: url(./assets/fonts/Marvel-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: MarvelItalic;
+  weight: 700;
+  src: url(./assets/fonts/Marvel-Italic.ttf);
+}
+
+@font-face {
+  font-family: MarvelRegular;
+  weight: 700;
+  src: url(./assets/fonts/Marvel-Regular.ttf);
+}
+
 * {
   margin: 0;
   padding: 0;
