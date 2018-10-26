@@ -1,0 +1,22 @@
+.header,
+.footer {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 3vh;
+  padding: 3vh 1vw;
+  color: white;
+  width: 98vw;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  height: auto;
+  padding: 2vh 1vw;
+}
