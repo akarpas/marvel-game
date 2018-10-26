@@ -4,7 +4,7 @@ import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader';
 import { Route, BrowserRouter } from 'react-router-dom';
-import App from './components/App';
+import Home from './components/pages/Home';
 import createStore from './store';
 
 import style from './index.scss';
@@ -16,7 +16,7 @@ const Application = () => {
     <div className={style.appContainer}>
       <Provider store={store}>
         <BrowserRouter>
-          <Route component={App} path="/" />
+          <Route component={Home} path="/" />
         </BrowserRouter>
       </Provider>
     </div>,
