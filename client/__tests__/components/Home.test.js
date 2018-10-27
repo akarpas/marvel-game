@@ -61,6 +61,6 @@ describe('action buttons - Shuffle and Play', () => {
   });
   it('contains a Play button which is disabled', () => {
     expect(wrapped.find('#play').text()).toContain('Play');
-    expect(wrapped.find('#play').hasAttr('disabled')).toEqual(true);
+    expect(wrapped.find('#play').prop('disabled')).toEqual(true);
   });
 });
