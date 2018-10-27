@@ -5,11 +5,11 @@ import style from './index.scss';
 
 const Layout = ({ children }) => (
   <div className={style.container}>
-    <header className={style.header}>Header</header>
+    <header className={style.header}>MARVEL SUPERHEROES</header>
     <div className={style.content}>
       {children}
     </div>
-    <footer className={style.footer}>Footer</footer>
+    <footer className={style.footer} />
   </div>
 );
 
