@@ -36,12 +36,12 @@
   justify-content: center;
   align-items: center;
   width: 40%;
-  height: 5rem;
+  height: 4rem;
   padding: 3px 0;
   border: 1px solid black;
   border-radius: 5px;
   margin: 0.2rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   background-color: white;
   color: black;
   text-align: center;
@@ -54,15 +54,23 @@
   justify-content: center;
   align-items: center;
   width: 40%;
-  height: 5rem;
+  height: 4rem;
   padding: 3px 0;
   border: 1px solid black;
   border-radius: 5px;
   margin: 0.2rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: grey;
   background-color: rgba(0,0,0,0.8);
   text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
 }
 
 .actionButton {
@@ -103,4 +111,22 @@
 
 .link {
   text-decoration: none;
+}
+
+@media screen and (min-width: 800px) {
+  .options {
+    width: 80%;
+  }
+
+  .button,
+  .buttonSelected {
+    font-size: 1.4rem;
+    height: 4.5rem;
+    width: 18%;
+  }
+
+  .actions {
+    flex-flow: row;
+    justify-content: center;
+  }
 }
