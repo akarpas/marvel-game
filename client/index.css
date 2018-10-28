@@ -1,3 +1,23 @@
+@font-face {
+  font-family: MarvelBold;
+  src: url(./assets/fonts/Marvel-Bold.ttf);
+}
+
+@font-face {
+  font-family: MarvelBoldItalic;
+  src: url(./assets/fonts/Marvel-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: MarvelItalic;
+  src: url(./assets/fonts/Marvel-Italic.ttf);
+}
+
+@font-face {
+  font-family: MarvelRegular;
+  src: url(./assets/fonts/Marvel-Regular.ttf);
+}
+
 * {
   margin: 0;
   padding: 0;
