@@ -25,7 +25,7 @@ const fetchAvatars = async (dispatch, heroes) => {
 
   return dispatch({
     type: GET_AVATARS,
-    payload: avatars,
+    payload: { heroes, avatars },
   });
 };
 

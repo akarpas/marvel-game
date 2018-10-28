@@ -8,12 +8,13 @@ const INITIAL_STATE = {
   avatarsLoading: false,
 };
 
-const getAvatars = (state, avatars) => {
-  const avatarImages = avatars.map((avatar) => {
+const getAvatars = (state, payload) => {
+  const { avatars, heroes } = payload;
+  const avatarImages = avatars.map((avatar, index) => {
     const { results } = avatar.data.data;
     const { thumbnail } = results[0];
     const { path, extension } = thumbnail;
-    return `${path}.${extension}`;
+    return { image: `${path}.${extension}`, hero: heroes[index] };
   });
   return { ...state, avatars: avatarImages, avatarsLoading: false };
 };
