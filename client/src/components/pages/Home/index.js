@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Heroes from '../../../../data/heroes';
 import Layout from '../../organisms/Layout';
@@ -29,7 +30,7 @@ class Home extends React.Component {
 
   handleShuffle(e) {
     e.preventDefault();
-    const heroesSelected = _.shuffle(Heroes).slice(0, 7);
+    const heroesSelected = _.shuffle(Heroes).slice(0, 8);
     this.setState({ heroesSelected });
   }
 
@@ -66,11 +67,24 @@ class Home extends React.Component {
           >
             Shuffle!
           </button>
-          <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
+          {allHeroesSelected ? (
+            <Link className={style.link} to={{ pathname: '/game', query: heroesSelected }}>
+              <button
+                id="play"
+                className={style.actionButton}
+                type="button"
+                disabled={!allHeroesSelected}
+              >
+                Play!
+              </button>
+            </Link>
+          ) : (
+            <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
+          )}
         </div>
       </Layout>
     );
   }
 }
 
-export default Home;
+export default withRouter(Home);
