@@ -59,16 +59,27 @@ class Home extends React.Component {
               );
             })}
           </div>
-          <button
-            id="shuffle"
-            onClick={e => this.handleShuffle(e)}
-            className={style.actionButton}
-            type="button"
-          >
-            Shuffle!
-          </button>
-          {allHeroesSelected ? (
-            <Link className={style.link} to={{ pathname: '/game', query: heroesSelected }}>
+          <div className={style.actions}>
+            <button
+              id="shuffle"
+              onClick={e => this.handleShuffle(e)}
+              className={style.actionButton}
+              type="button"
+            >
+              Shuffle!
+            </button>
+            {allHeroesSelected ? (
+              <Link className={style.link} to={{ pathname: '/game', query: heroesSelected }}>
+                <button
+                  id="play"
+                  className={style.actionButton}
+                  type="button"
+                  disabled={!allHeroesSelected}
+                >
+                  Play!
+                </button>
+              </Link>
+            ) : (
               <button
                 id="play"
                 className={style.actionButton}
@@ -77,10 +88,8 @@ class Home extends React.Component {
               >
                 Play!
               </button>
-            </Link>
-          ) : (
-            <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
-          )}
+            )}
+          </div>
         </div>
       </Layout>
     );
