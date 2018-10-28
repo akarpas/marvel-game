@@ -8,12 +8,12 @@ const mockStore = configureStore();
 const store = mockStore();
 
 describe('get avatars from marvel api', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     store.clearActions();
+    await fetchAvatars(store.dispatch, ['iron man']);
   });
 
   it('handles actions of type AVATARS_LOADING', async () => {
-    await fetchAvatars(store.dispatch, ['iron man']);
     const { payload } = store.getActions()[0];
     const action = {
       type: AVATARS_LOADING,
@@ -28,7 +28,6 @@ describe('get avatars from marvel api', () => {
 
   it('handles actions of type GET_AVATARS', async () => {
     const heroes = ['iron man'];
-    await fetchAvatars(store.dispatch, heroes);
     const { payload } = store.getActions()[1];
     const action = {
       type: GET_AVATARS,
