@@ -27,24 +27,31 @@ class Home extends React.Component {
 
   render() {
     const { heroesSelected } = this.state;
+    const allHeroesSelected = heroesSelected.length === 8;
+
     return (
       <Layout>
         <div className={style.content}>
           <h3 className={style.description}> A fun memory game with your favorite Marvel superheroes! </h3>
           <h2 className={style.title}>Pick your 8 Heroes:</h2>
           <div className={style.options}>
-            {Heroes.map(hero => (
-              <button
-                type="button"
-                onClick={e => this.handleClick(e, hero)}
-                className={heroesSelected.indexOf(hero) !== -1 ? style.buttonSelected : style.button}
-                key={hero}
-                id={hero}
-              >
-                {hero}
-              </button>
-            ))}
+            {Heroes.map((hero) => {
+              const isHeroSelected = heroesSelected.indexOf(hero) !== -1;
+              return (
+                <button
+                  type="button"
+                  onClick={e => this.handleClick(e, hero)}
+                  className={isHeroSelected ? style.buttonSelected : style.button}
+                  key={hero}
+                  id={hero}
+                >
+                  {hero}
+                </button>
+              );
+            })}
           </div>
+          <button id="shuffle" className={style.actionButton} type="button">Shuffle!</button>
+          <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
         </div>
       </Layout>
     );
