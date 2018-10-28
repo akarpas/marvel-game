@@ -27,7 +27,8 @@ describe('get avatars from marvel api', () => {
   });
 
   it('handles actions of type GET_AVATARS', async () => {
-    await fetchAvatars(store.dispatch, ['iron man']);
+    const heroes = ['iron man'];
+    await fetchAvatars(store.dispatch, heroes);
     const { payload } = store.getActions()[1];
     const action = {
       type: GET_AVATARS,
@@ -35,7 +36,10 @@ describe('get avatars from marvel api', () => {
     };
     const newState = await marvelReducer({ avatars: [] }, action);
     expect(newState).toEqual({
-      avatars: ['http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg'],
+      avatars: [{
+        image: 'http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg',
+        hero: heroes[0],
+      }],
       avatarsLoading: false,
     });
   });

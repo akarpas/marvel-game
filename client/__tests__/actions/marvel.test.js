@@ -16,14 +16,14 @@ describe('fetchCards', () => {
   });
   it('has a successful response', async () => {
     await fetchAvatars(store.dispatch, ['iron man']);
-    const { data } = store.getActions()[1].payload[0];
+    const { data } = store.getActions()[1].payload.avatars[0];
     const { code, status } = data;
     expect(code).toEqual(200);
     expect(status.toLowerCase()).toEqual('ok');
   });
   it('has the correct type and payload for fetching avatars', async () => {
     await fetchAvatars(store.dispatch, ['iron man']);
-    const { data } = store.getActions()[1].payload[0].data;
+    const { data } = store.getActions()[1].payload.avatars[0].data;
     const { results } = data;
     const heroName = results[0].name;
     expect(store.getActions()[1].type).toEqual(GET_AVATARS);
