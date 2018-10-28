@@ -13,7 +13,7 @@ const heroes = [
   'Doctor Strange',
   'Vision',
   'Wolverine',
-  'War Machine',
+  'Storm',
   'Black Panther',
   'Deadpool',
   'Cyclopes',
