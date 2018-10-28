@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import Home from './components/pages/Home';
+import Game from './components/pages/Game';
 import createStore from './store';
 
 import style from './index.scss';
@@ -16,7 +17,10 @@ const Application = () => {
     <div className={style.appContainer}>
       <Provider store={store}>
         <BrowserRouter>
-          <Route component={Home} path="/" />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/game" component={Game} />
+          </Switch>
         </BrowserRouter>
       </Provider>
     </div>,
