@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import Heroes from '../../../../data/heroes';
 import Layout from '../../organisms/Layout';
 import style from './index.scss';
@@ -10,6 +11,7 @@ class Home extends React.Component {
       heroesSelected: [],
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleShuffle = this.handleShuffle.bind(this);
   }
 
   handleClick(e, hero) {
@@ -23,6 +25,12 @@ class Home extends React.Component {
       heroesSelected.push(hero);
       this.setState({ heroesSelected });
     }
+  }
+
+  handleShuffle(e) {
+    e.preventDefault();
+    const heroesSelected = _.shuffle(Heroes).slice(0, 7);
+    this.setState({ heroesSelected });
   }
 
   render() {
@@ -50,7 +58,7 @@ class Home extends React.Component {
               );
             })}
           </div>
-          <button id="shuffle" className={style.actionButton} type="button">Shuffle!</button>
+          <button id="shuffle" onClick={e => this.handleShuffle(e)} className={style.actionButton} type="button">Shuffle!</button>
           <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
         </div>
       </Layout>
