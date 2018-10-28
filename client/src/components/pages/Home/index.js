@@ -58,7 +58,14 @@ class Home extends React.Component {
               );
             })}
           </div>
-          <button id="shuffle" onClick={e => this.handleShuffle(e)} className={style.actionButton} type="button">Shuffle!</button>
+          <button
+            id="shuffle"
+            onClick={e => this.handleShuffle(e)}
+            className={style.actionButton}
+            type="button"
+          >
+            Shuffle!
+          </button>
           <button id="play" className={style.actionButton} type="button" disabled={!allHeroesSelected}>Play!</button>
         </div>
       </Layout>
