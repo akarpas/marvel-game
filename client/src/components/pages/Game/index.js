@@ -78,8 +78,8 @@ class Game extends React.Component {
     }
   }
 
-  handleTime(done) {
-    if (done) this.setState({ gameFinished: true }); // eslint-disable-line
+  handleTime(done, timeRemaining) {
+    if (done) this.setState({ gameFinished: true, timeRemaining }); // eslint-disable-line
   }
 
   render() {

@@ -20,7 +20,7 @@ class GameStats extends React.Component {
     if (time !== 0) this.setState({ time: time - 1 });
     if (time === 0) {
       clearInterval(this.timer);
-      handleEndTime(true);
+      handleEndTime(true, time);
     }
   }
 
