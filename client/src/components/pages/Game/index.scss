@@ -44,3 +44,16 @@ button {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
+
+.loading {
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  20%{opacity: 0.5;}
+  50%{opacity: 0.75;}
+  100%{opacity: 1;}
+}

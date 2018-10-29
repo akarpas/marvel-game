@@ -5,7 +5,7 @@ class GameStats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 5,
+      time: 50,
     };
     this.tick = this.tick.bind(this);
   }
@@ -16,11 +16,15 @@ class GameStats extends React.Component {
 
   tick() {
     const { time } = this.state;
-    const { handleEndTime } = this.props;
-    if (time !== 0) this.setState({ time: time - 1 });
-    if (time === 0) {
+    const { handleEndTime, updateTime, gameDone } = this.props;
+    if (time !== 0) {
+      this.setState({ time: time - 1 });
+      updateTime(time);
+    }
+    if (time === 0 || gameDone) {
+      const remainingTime = time;
       clearInterval(this.timer);
-      handleEndTime(true);
+      handleEndTime(true, remainingTime);
     }
   }
 

@@ -3,9 +3,10 @@ import md5 from 'md5';
 import {
   GET_AVATARS,
   AVATARS_LOADING,
+  CLEAR_AVATARS,
 } from './types';
 
-const fetchAvatars = async (dispatch, heroes) => {
+export const fetchAvatars = async (dispatch, heroes) => {
   dispatch({
     type: AVATARS_LOADING,
     payload: null,
@@ -22,7 +23,6 @@ const fetchAvatars = async (dispatch, heroes) => {
   const promises = urls.map(async (url) => {
     try {
       let response = await axios.get(url);
-      console.warn(response);
       if (response.data.data.results.length) return { response, error: null };
       response = await axios.get(url);
       if (response.data.data.results.length) return { response, error: null };
@@ -39,4 +39,7 @@ const fetchAvatars = async (dispatch, heroes) => {
   });
 };
 
-export default fetchAvatars;
+export const clearAvatars = dispatch => dispatch({
+  type: CLEAR_AVATARS,
+  payload: null,
+});
