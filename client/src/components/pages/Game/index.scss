@@ -44,14 +44,3 @@ button {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
-
-.score {
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  font-size: 3.5rem;
-  padding: 1rem;
-  font-family: MarvelBold;
-}

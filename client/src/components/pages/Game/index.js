@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Layout from '../../organisms/Layout';
+import GameStats from '../../molecules/GameStats';
 import fetchAvatars from '../../../actions/marvel';
 
 import style from './index.scss';
@@ -11,6 +12,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       gameStarted: false,
+      gameFinished: false, // eslint-disable-line
       hideAll: false,
       clicks: 0,
       firstCard: '',
@@ -19,6 +21,7 @@ class Game extends React.Component {
       score: 50,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleTime = this.handleTime.bind(this);
   }
 
   componentDidMount() {
@@ -75,8 +78,12 @@ class Game extends React.Component {
     }
   }
 
+  handleTime(done) {
+    if (done) this.setState({ gameFinished: true }); // eslint-disable-line
+  }
+
   render() {
-    const { hideAll, firstCard, secondCard, revealedCards, score } = this.state;
+    const { hideAll, firstCard, secondCard, revealedCards, score, gameStarted } = this.state;
     const { avatars } = this.props;
 
     return (
@@ -99,7 +106,7 @@ class Game extends React.Component {
             );
           })}
         </div>
-        <div className={style.score}>{score}</div>
+        {gameStarted && <GameStats score={score} handleEndTime={this.handleTime} />}
       </Layout>
     );
   }
