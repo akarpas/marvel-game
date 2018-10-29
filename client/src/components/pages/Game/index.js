@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Layout from '../../organisms/Layout';
 import GameStats from '../../molecules/GameStats';
+import GameOver from '../../molecules/GameOver';
 import fetchAvatars from '../../../actions/marvel';
 
 import style from './index.scss';
@@ -83,7 +84,16 @@ class Game extends React.Component {
   }
 
   render() {
-    const { hideAll, firstCard, secondCard, revealedCards, score, gameStarted } = this.state;
+    const {
+      hideAll,
+      firstCard,
+      secondCard,
+      revealedCards,
+      score,
+      gameStarted,
+      gameFinished,
+      remainingTime,
+    } = this.state;
     const { avatars } = this.props;
 
     return (
@@ -107,6 +117,8 @@ class Game extends React.Component {
           })}
         </div>
         {gameStarted && <GameStats score={score} handleEndTime={this.handleTime} />}
+        {gameFinished
+          && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={revealedCards.length === 16} />}
       </Layout>
     );
   }
