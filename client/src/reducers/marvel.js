@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   GET_AVATARS,
   AVATARS_LOADING,
@@ -16,7 +17,8 @@ const getAvatars = (state, payload) => {
     const { path, extension } = thumbnail;
     return { image: `${path}.${extension}`, hero: heroes[index] };
   });
-  return { ...state, avatars: avatarImages, avatarsLoading: false };
+  const allAvatars = _.shuffle(avatarImages.concat(avatarImages));
+  return { ...state, avatars: allAvatars, avatarsLoading: false };
 };
 
 const setLoading = (state) => { // eslint-disable-line
