@@ -15,7 +15,6 @@ const getAvatars = (state, payload) => {
     // TODO: Check for error
     const { response } = avatar;
     const { results } = response.data.data;
-    if (results[0] === undefined) console.warn('undefined: ', avatar, heroes[index]);
     const { thumbnail } = results[0];
     const { path, extension } = thumbnail;
     return { image: `${path}.${extension}`, hero: heroes[index] };
