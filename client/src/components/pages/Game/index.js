@@ -48,6 +48,11 @@ class Game extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    marvelActions.clearAvatars(dispatch);
+  }
+
   handleClick(e) {
     e.preventDefault();
     const { id } = e.target;
