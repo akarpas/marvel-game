@@ -4,7 +4,6 @@ import style from './index.scss';
 
 const GameOver = (props) => {
   const { finalScore, remainingTime, hasCompleted } = props;
-
   const calculateScore = (score, time, completed) => {
     if (completed) {
       return (score + (time * 30));
