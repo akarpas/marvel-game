@@ -1,0 +1,70 @@
+.overlay {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  min-width: 100%;
+  background-color: rgba(0,0,0,0.9);
+  z-index: 99;
+  font-size: 2.5rem;
+}
+
+.scoreCard {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 90%;
+  min-height: 60vh;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.gameOver {
+  font-family: MarvelBold;
+  margin: 1rem 0;
+}
+
+.label {
+  font-family: MarvelBold;
+}
+
+.link {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  text-decoration: none;
+}
+
+.button {
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+  padding: 1rem 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.4rem;
+  font-size: 1.25rem;
+  background-color: #F0151E;
+  color: white;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #ef888c;
+}
+
+.button:active {
+  color: black;
+  background-color: white;
+}
