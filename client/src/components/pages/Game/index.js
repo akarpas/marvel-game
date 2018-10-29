@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Layout from '../../organisms/Layout';
+import fetchAvatars from '../../../actions/marvel';
 
 import style from './index.scss';
 
@@ -9,24 +10,6 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allAvatars: ([
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd.jpg', hero: 'Thanos' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg', hero: 'Captain America' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg', hero: 'Spider-man' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/d/50/50febb79985ee.jpg', hero: 'Daredevil' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/b0/5261a7e53f827.jpg', hero: 'Magneto' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/00/539a06a64b262.jpg', hero: 'Odin' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/6/40/526963dad214d.jpg', hero: 'Storm' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg', hero: 'Iron Man' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd.jpg', hero: 'Thanos' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg', hero: 'Captain America' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg', hero: 'Spider-man' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/d/50/50febb79985ee.jpg', hero: 'Daredevil' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/b0/5261a7e53f827.jpg', hero: 'Magneto' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/3/00/539a06a64b262.jpg', hero: 'Odin' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/6/40/526963dad214d.jpg', hero: 'Storm' },
-        { image: 'http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg', hero: 'Iron Man' },
-      ]),
       gameStarted: false,
       hideAll: false,
       clicks: 0,
@@ -39,10 +22,31 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: change timeout to 4000 - 5000
-    setTimeout(() => {
-      this.setState({ hideAll: true, gameStarted: true });
-    }, 1000);
+    // TODO: change timeout to 4000 - 5000 - only for dev purposes
+    const { location, dispatch, history } = this.props;
+    const { query } = location;
+    const heroesSelected = query;
+    if (heroesSelected === undefined) {
+      history.push('/');
+    } else {
+      // TODO: use heroes selected for restarting game
+      this.setState({ heroesSelected }); // eslint-disable-line
+      fetchAvatars(dispatch, heroesSelected);
+    }
+    // TODO: Remove || only for dev purposes
+    // || ['Thanos', 'Captain America', 'Spider-man', 'Daredevil', 'Magneto', 'Odin', 'Storm', 'Iron Man'];
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { history } = this.props;
+    const { avatars, avatarsLoading } = nextProps;
+    if (avatars.length === 16 && !avatarsLoading) {
+      setTimeout(() => {
+        this.setState({ hideAll: true, gameStarted: true });
+      }, 3000);
+    } else if (avatars.length < 16 && !avatarsLoading) {
+      history.push('/');
+    }
   }
 
   handleClick(e) {
@@ -72,12 +76,13 @@ class Game extends React.Component {
   }
 
   render() {
-    const { hideAll, firstCard, secondCard, revealedCards, score, allAvatars } = this.state;
+    const { hideAll, firstCard, secondCard, revealedCards, score } = this.state;
+    const { avatars } = this.props;
 
     return (
       <Layout>
         <div className={style.cards}>
-          {allAvatars && allAvatars.map((avatar, index) => {
+          {avatars && avatars.map((avatar, index) => {
             const id = `${avatar.hero}-${index}`;
             const buttonKey = `${avatar.hero}${index}`;
             const showCard = hideAll && firstCard !== id && secondCard !== id;
@@ -100,4 +105,6 @@ class Game extends React.Component {
   }
 }
 
-export default withRouter(connect(null)(Game));
+const mapStateToProps = ({ marvel }) => ({ ...marvel });
+
+export default withRouter(connect(mapStateToProps)(Game));
