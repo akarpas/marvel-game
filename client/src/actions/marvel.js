@@ -1,6 +1,4 @@
 import axios from 'axios';
-// import _ from 'lodash';
-// import Promise from 'bluebird';
 import md5 from 'md5';
 import {
   GET_AVATARS,
@@ -34,7 +32,7 @@ const fetchAvatars = async (dispatch, heroes) => {
     }
   });
   const avatars = await axios.all(promises).then(axios.spread((...response) => response));
-  console.warn('avatars in action: ', avatars);
+
   return dispatch({
     type: GET_AVATARS,
     payload: { heroes, avatars },
