@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../../src/components/pages/Home';
 import Heroes from '../../data/heroes';
@@ -55,7 +55,7 @@ describe('main content with options', () => {
     expect(wrapped.find('button').first().hasClass('buttonSelected')).toEqual(true);
   });
   it('adds correct hero to the state when clicked', () => {
-    const wrapperHome = shallow(<Home />);
+    const wrapperHome = wrapped.find(Home).children().children();
     const firstHero = Heroes[0];
     expect(wrapperHome.state().heroesSelected.length).toEqual(0);
     const oneButton = wrapperHome.find('button').first();

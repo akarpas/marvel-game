@@ -1,6 +1,6 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
