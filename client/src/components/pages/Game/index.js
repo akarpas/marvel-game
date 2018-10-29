@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import Layout from '../../organisms/Layout';
 import GameStats from '../../molecules/GameStats';
 import GameOver from '../../molecules/GameOver';
-import fetchAvatars from '../../../actions/marvel';
-
+import * as marvelActions from '../../../actions/marvel';
 import style from './index.scss';
 
 class Game extends React.Component {
@@ -13,7 +12,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       gameStarted: false,
-      gameFinished: false, // eslint-disable-line
+      gameFinished: false,
       hideAll: false,
       clicks: 0,
       firstCard: '',
@@ -23,22 +22,18 @@ class Game extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleTime = this.handleTime.bind(this);
+    this.updateTime = this.updateTime.bind(this);
   }
 
   componentDidMount() {
-    // TODO: change timeout to 4000 - 5000 - only for dev purposes
     const { location, dispatch, history } = this.props;
     const { query } = location;
     const heroesSelected = query;
     if (heroesSelected === undefined) {
       history.push('/');
     } else {
-      // TODO: use heroes selected for restarting game
-      this.setState({ heroesSelected }); // eslint-disable-line
-      fetchAvatars(dispatch, heroesSelected);
+      marvelActions.fetchAvatars(dispatch, heroesSelected);
     }
-    // TODO: Remove || only for dev purposes
-    // || ['Thanos', 'Captain America', 'Spider-man', 'Daredevil', 'Magneto', 'Odin', 'Storm', 'Iron Man'];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,7 +42,7 @@ class Game extends React.Component {
     if (avatars.length === 16 && !avatarsLoading) {
       setTimeout(() => {
         this.setState({ hideAll: true, gameStarted: true });
-      }, 3000);
+      }, 4000);
     } else if (avatars.length < 16 && !avatarsLoading) {
       history.push('/');
     }
@@ -73,14 +68,18 @@ class Game extends React.Component {
           this.setState({ secondCard: id, score: score > 0 ? score - 10 : score });
           setTimeout(() => {
             this.setState({ clicks: 0, firstCard: '', secondCard: '' });
-          }, 1000);
+          }, 800);
         }
       }
     }
   }
 
-  handleTime(done, timeRemaining) {
-    if (done) this.setState({ gameFinished: true, timeRemaining }); // eslint-disable-line
+  handleTime(done, remainingTime) {
+    if (done) this.setState({ gameFinished: true, remainingTime }); // eslint-disable-line
+  }
+
+  updateTime(time) {
+    this.setState({ time });
   }
 
   render() {
@@ -92,13 +91,16 @@ class Game extends React.Component {
       score,
       gameStarted,
       gameFinished,
-      remainingTime,
+      time,
     } = this.state;
-    const { avatars } = this.props;
+    const { avatars, avatarsLoading } = this.props;
+    const completed = revealedCards.length === 16;
+    const remainingTime = completed && time;
 
     return (
       <Layout>
         <div className={style.cards}>
+          {avatarsLoading && <div className={style.loading}>Cards are being loaded...</div>}
           {avatars && avatars.map((avatar, index) => {
             const id = `${avatar.hero}-${index}`;
             const buttonKey = `${avatar.hero}${index}`;
@@ -116,9 +118,16 @@ class Game extends React.Component {
             );
           })}
         </div>
-        {gameStarted && <GameStats score={score} handleEndTime={this.handleTime} />}
-        {gameFinished
-          && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={revealedCards.length === 16} />}
+        {gameStarted
+          && (
+            <GameStats
+              score={score}
+              gameDone={completed}
+              handleEndTime={this.handleTime}
+              updateTime={this.updateTime}
+            />)}
+        {(gameFinished || completed)
+          && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={completed} />}
       </Layout>
     );
   }
