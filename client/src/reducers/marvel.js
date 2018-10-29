@@ -12,7 +12,10 @@ const INITIAL_STATE = {
 const getAvatars = (state, payload) => {
   const { avatars, heroes } = payload;
   const avatarImages = avatars.map((avatar, index) => {
-    const { results } = avatar.data.data;
+    // TODO: Check for error
+    const { response } = avatar;
+    const { results } = response.data.data;
+    if (results[0] === undefined) console.warn('undefined: ', avatar, heroes[index]);
     const { thumbnail } = results[0];
     const { path, extension } = thumbnail;
     return { image: `${path}.${extension}`, hero: heroes[index] };
@@ -21,9 +24,7 @@ const getAvatars = (state, payload) => {
   return { ...state, avatars: allAvatars, avatarsLoading: false };
 };
 
-const setLoading = (state) => { // eslint-disable-line
-  return { ...state, avatarsLoading: true };
-};
+const setLoading = state => ({ ...state, avatarsLoading: true });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
