@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const axios = require('axios');
+const boom = require('boom');
 const shuffle = require('lodash.shuffle');
 const md5 = require('md5');
 const port = 5050;
@@ -18,19 +19,15 @@ app.use(bodyParser.json({
 
 app.post('/v1/api/fetch_cards', async (req, res, next) => {
   const { API_KEY, PRIVATE_KEY } = process.env;
-
   const { body } = req;
-  if (!body) {
-    res.status(400).send({
-      error: "no data provided"
-    });
+
+  if (Object.keys(body).length === 0) {
+    return next(boom.badRequest('Body has not been provided! '))
   }
 
   const { heroes } = req.body;
   if (!heroes || !heroes.length) {
-    res.status(400).send({
-      error: "no data provided"
-    });
+    return next(boom.badRequest(`Incorrect data provided! Accepts a heroes array with the names of the heroes`));
   }
 
   const urls = heroes.map((hero) => {
@@ -40,21 +37,19 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
     return `${baseUrl}${hero}&limit=1&apikey=${API_KEY}&hash=${hash}`;
   });
 
-  const promises = urls.map(async (url) => {
+  const apiCalls = urls.map(async (url) => {
     try {
       let response = await axios.get(url);
       if (response.data.data.results.length) return { response, error: null };
       response = await axios.get(url);
       if (response.data.data.results.length) return { response, error: null };
-      return { response, error: 'Something went wrong with the call. No results found.' };
+      return next(boom.notFound('Something went wrong with the call! No results found.'))
     } catch (error) {
-      return { response: [], error: `Something went wrong with the call, retrying - Error: ${error}` };
+      return next(boom.notFound('Something went wrong with the call: ', error));
     }
   });
 
-  const avatars = await axios.all(promises).then(axios.spread((...response) => response));
-
-  // TODO: Check for error (loop through avatars for any errors);
+  const avatars = await axios.all(apiCalls).then(axios.spread((...response) => response));
 
   const avatarImages = avatars.map((avatar, index) => {
     const { response } = avatar;
@@ -63,12 +58,24 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
     const { path, extension } = thumbnail;
     return { image: `${path}.${extension}`, hero: heroes[index] };
   });
+
   const allAvatars = shuffle(avatarImages.concat(avatarImages));
 
   res.status(200).send({
-    error: null,
+    statusCode: 200,
     avatars: allAvatars,
   });
+});
+
+app.use((err, req, res, next) => {
+  const { output } = err;
+  const { payload } = output;
+  const { message, statusCode } = payload;
+  console.log('Status:', statusCode, 'Error:', message);
+  if (err.isServer) {
+    console.error('Server error: ', err);
+  }
+  return res.status(err.output.statusCode).json(err.output.payload);
 });
 
 app.listen(port, function () {
