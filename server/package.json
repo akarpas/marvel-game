@@ -2,13 +2,21 @@
   "name": "marvel-game-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
+    "start:prod": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andreas Karpasitis",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "lodash.shuffle": "^4.2.0",
+    "md5": "^2.2.1"
   }
 }
