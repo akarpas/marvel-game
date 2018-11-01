@@ -1,25 +1,35 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import fetchAvatars from '../../src/actions/marvel';
+import { fetchAvatars } from '../../src/actions/marvel';
 import Game from '../../src/components/pages/Game';
 import createStore from '../../src/store';
 
-const store = createStore({});
 const mockStore = configureStore();
 
 let wrapped;
 
+const initialState = {
+  marvel: {
+    avatars: [],
+    avatarsLoading: false,
+  },
+};
+
+const store = createStore({});
+
+
 beforeEach(() => {
-  const location = {
-    pathname: '/game',
-    query: ['Thanos', 'Captain America', 'Spider-man', 'Daredevil', 'Magneto', 'Odin', 'Storm', 'Iron Man'],
-  };
+  const heroes = ['Thanos', 'Captain America', 'Spider-man', 'Daredevil', 'Magneto', 'Odin', 'Storm', 'Iron Man'];
+
   wrapped = mount(
-    <BrowserRouter>
-      <Game store={store} location={location} />
-    </BrowserRouter>,
+    <Provider store={store} initialState={initialState}>
+      <BrowserRouter>
+        <Game heroesSelected={heroes} />
+      </BrowserRouter>
+    </Provider>,
   );
 });
 
@@ -42,19 +52,17 @@ describe('header and footer', () => {
   });
 });
 
-describe('container with 16 cards', () => {
+describe('container for cards', () => {
   beforeEach(async () => {
     mockStore().clearActions();
     const heroes = ['Thanos', 'Captain America', 'Spider-man', 'Daredevil', 'Magneto', 'Odin', 'Storm', 'Iron Man'];
     await fetchAvatars(mockStore().dispatch, heroes);
+    wrapped.update();
+  }, 10000);
+  afterAll(() => { // eslint-disable-line
+    wrapped.unmount();
   });
   it('contains a container for the cards', () => {
-    expect(wrapped.find('.cards').length).toEqual(1);
-  });
-  it('contains 16 cards', () => {
-    expect(wrapped.find('.card').length).toEqual(16);
-  });
-  it('contains 16 images', () => {
-    expect(wrapped.find('img').length).toEqual(16);
+    expect(wrapped.update().find('.cards').length).toEqual(1);
   });
 });
