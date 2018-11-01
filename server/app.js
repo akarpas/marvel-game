@@ -25,7 +25,7 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
   }
 
   const { heroes } = req.body;
-  if (!heroes || !heroes.length) {
+  if (!heroes || !heroes.length || (typeof heroes !== 'object' && !heroes.length)) {
     return next(boom.badRequest(`Incorrect data provided! Accepts a heroes array with the names of the heroes`));
   }
 
@@ -55,7 +55,7 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
     const { results } = response.data.data;
     const { thumbnail } = results[0];
     const { path, extension } = thumbnail;
-    return { image: `${path}.${extension}`, hero: heroes[index] };
+    return { image: `${path.replace('http', 'https')}.${extension}`, hero: heroes[index] };
   });
 
   const allAvatars = shuffle(avatarImages.concat(avatarImages));
