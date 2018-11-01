@@ -71,7 +71,7 @@ app.use((err, req, res, next) => {
   const { output } = err;
   const { payload } = output;
   const { message, statusCode } = payload;
-  console.log('Status:', statusCode, 'Error:', message);
+  console.log('Status:', statusCode, 'Message:', message);
   if (err.isServer) {
     console.error('Server error: ', err);
   }
