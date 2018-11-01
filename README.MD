@@ -18,7 +18,7 @@ Server will run on localhost:5050 (no view just API to serve client)
 Client will run on localhost:3000
 
 ### TESTING CLIENT
-```cd client && npm install && npm run test``` or ```cd client &&npm install && npm run test:watch```
+```cd client && npm install && npm run test``` or ```cd client && npm install && npm run test:watch```
 
 ### TESTING SERVER
 ```cd server && npm install && npm run test``` or ```cd server &&npm install && npm run test:watch```
