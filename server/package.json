@@ -15,7 +15,7 @@
     "npm": "4.2.0"
   },
   "jest": {
-    "verbose": false
+    "verbose": true
   },
   "dependencies": {
     "axios": "^0.18.0",
