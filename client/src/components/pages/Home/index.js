@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import _ from 'lodash';
+import shuffle from 'lodash.shuffle';
 import Heroes from '../../../../data/heroes';
 import Layout from '../../organisms/Layout';
 import style from './index.scss';
@@ -30,7 +30,7 @@ class Home extends React.Component {
 
   handleShuffle(e) {
     e.preventDefault();
-    const heroesSelected = _.shuffle(Heroes).slice(0, 8);
+    const heroesSelected = shuffle(Heroes).slice(0, 8);
     this.setState({ heroesSelected });
   }
 
