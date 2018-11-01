@@ -14,6 +14,7 @@ export const fetchAvatars = async (dispatch, heroes) => {
 
   const { apiUrl } = config[process.env.NODE_ENV];
   const response = await axios.post(apiUrl, { heroes });
+  // TODO - ERROR HANDLING!
   const { data } = response;
   const { avatars } = data;
 
