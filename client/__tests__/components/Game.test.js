@@ -65,4 +65,10 @@ describe('container for cards', () => {
   it('contains a container for the cards', () => {
     expect(wrapped.update().find('.cards').length).toEqual(1);
   });
+  it('contains 16 cards', () => {
+    expect(wrapped.find('.card').length).toEqual(16);
+  });
+  it('contains 16 images', () => {
+    expect(wrapped.find('img').length).toEqual(16);
+  });
 });
