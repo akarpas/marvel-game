@@ -25,14 +25,19 @@ class Game extends React.Component {
     this.updateTime = this.updateTime.bind(this);
   }
 
+  componentWillMount() {
+    const { dispatch } = this.props;
+    marvelActions.clearAvatars(dispatch);
+  }
+
   componentDidMount() {
-    const { location, dispatch, history } = this.props;
+    const { location, dispatch, history, heroesSelected } = this.props;
     const { query } = location;
-    const heroesSelected = query;
-    if (heroesSelected === undefined) {
+    const heroes = query || heroesSelected;
+    if (heroes === undefined) {
       history.push('/');
     } else {
-      marvelActions.fetchAvatars(dispatch, heroesSelected);
+      marvelActions.fetchAvatars(dispatch, heroes);
     }
   }
 
@@ -43,14 +48,9 @@ class Game extends React.Component {
       setTimeout(() => {
         this.setState({ hideAll: true, gameStarted: true });
       }, 4000);
-    } else if (avatars.length < 16 && !avatarsLoading) {
+    } else if (avatars.length === 0 && !avatarsLoading) {
       history.push('/');
     }
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    marvelActions.clearAvatars(dispatch);
   }
 
   handleClick(e) {
@@ -104,35 +104,37 @@ class Game extends React.Component {
 
     return (
       <Layout>
-        <div className={style.cards}>
-          {avatarsLoading && <div className={style.loading}>Cards are being loaded...</div>}
-          {avatars && avatars.map((avatar, index) => {
-            const id = `${avatar.hero}-${index}`;
-            const buttonKey = `${avatar.hero}${index}`;
-            const showCard = hideAll && firstCard !== id && secondCard !== id;
-            const cardFound = revealedCards.indexOf(id) !== -1;
-            return (
-              <button type="button" className={style.card} id={id} key={buttonKey} onClick={e => this.handleClick(e)}>
-                <img
-                  style={showCard && !cardFound ? { visibility: 'hidden', opacity: 0 } : {}}
-                  className={cardFound ? style.avatarFound : style.avatar}
-                  src={avatar.image}
-                  alt={avatar.hero}
-                />
-              </button>
-            );
-          })}
+        <div>
+          <div className={style.cards}>
+            {avatarsLoading && <div className={style.loading}>Cards are being loaded...</div>}
+            {avatars && avatars.map((avatar, index) => {
+              const id = `${avatar.hero}-${index}`;
+              const buttonKey = `${avatar.hero}${index}`;
+              const showCard = hideAll && firstCard !== id && secondCard !== id;
+              const cardFound = revealedCards.indexOf(id) !== -1;
+              return (
+                <button type="button" className={style.card} id={id} key={buttonKey} onClick={e => this.handleClick(e)}>
+                  <img
+                    style={showCard && !cardFound ? { visibility: 'hidden', opacity: 0 } : {}}
+                    className={cardFound ? style.avatarFound : style.avatar}
+                    src={avatar.image}
+                    alt={avatar.hero}
+                  />
+                </button>
+              );
+            })}
+          </div>
+          {gameStarted
+            && (
+              <GameStats
+                score={score}
+                gameDone={completed}
+                handleEndTime={this.handleTime}
+                updateTime={this.updateTime}
+              />)}
+          {(gameFinished || completed)
+            && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={completed} />}
         </div>
-        {gameStarted
-          && (
-            <GameStats
-              score={score}
-              gameDone={completed}
-              handleEndTime={this.handleTime}
-              updateTime={this.updateTime}
-            />)}
-        {(gameFinished || completed)
-          && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={completed} />}
       </Layout>
     );
   }

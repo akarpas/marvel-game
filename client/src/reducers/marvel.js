@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   GET_AVATARS,
   AVATARS_LOADING,
@@ -11,17 +10,8 @@ const INITIAL_STATE = {
 };
 
 const getAvatars = (state, payload) => {
-  const { avatars, heroes } = payload;
-  const avatarImages = avatars.map((avatar, index) => {
-    // TODO: Check for error
-    const { response } = avatar;
-    const { results } = response.data.data;
-    const { thumbnail } = results[0];
-    const { path, extension } = thumbnail;
-    return { image: `${path}.${extension}`, hero: heroes[index] };
-  });
-  const allAvatars = _.shuffle(avatarImages.concat(avatarImages));
-  return { ...state, avatars: allAvatars, avatarsLoading: false };
+  const { avatars } = payload;
+  return { ...state, avatars, avatarsLoading: false };
 };
 
 const setLoading = state => ({ ...state, avatarsLoading: true });

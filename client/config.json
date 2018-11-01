@@ -1,0 +1,11 @@
+{
+  "development": {
+    "apiUrl": "http://localhost:5050/v1/api/fetch_cards"
+  },
+  "production": {
+    "apiUrl": "https://marvel-game-api.herokuapp.com/v1/api/fetch_cards"
+  },
+  "test": {
+    "apiUrl": "http://localhost:5050/v1/api/fetch_cards"
+  }
+}
