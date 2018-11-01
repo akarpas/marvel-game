@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start:prod": "node server.js",
-    "test": "jest --watch"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Andreas Karpasitis",
   "license": "ISC",
