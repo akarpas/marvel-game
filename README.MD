@@ -17,6 +17,12 @@ Server will run on localhost:5050 (no view just API to serve client)
 
 Client will run on localhost:3000
 
+### TESTING CLIENT
+```cd client && npm run test``` or ```cd client && npm run test:watch```
+
+### TESTING SERVER
+```cd server && npm install && npm run test``` or ```cd server &&npm install && npm run test:watch```
+
 ### ADDITIONAL IMPROVEMENTS THAT CAN BE IMPLEMENTED
 1. Add tests for GameOver and GameStats components
 2. Add animation to make cards flip
