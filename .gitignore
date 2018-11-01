@@ -3,4 +3,4 @@
 /client/node_modules/
 /client/dist/
 /server/.env
-.env
+/.env
