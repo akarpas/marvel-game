@@ -7,13 +7,21 @@
 [View](https://marvel-game.netlify.com/)
 
 ### RUNNING LOCALLY
-```cd server && npm install && npm start```
+
+**Prerequisite:** install NVM if not already installed [Click Here](https://github.com/creationix/nvm)
+
+##### SERVER
+
+Node version is lts/carbon
+
+```cd server && nvm use && npm install && npm start```
 
 **IMPORTANT:** *For the server a local .env file is required with the API_KEY and the PRIVATE_KEY of Marvel as per the .env-example file*
 
 Server will run on localhost:5050 (no view just API to serve client)
 
-```cd .. && cd client && npm install && npm start```
+##### CLIENT
+```cd client && nvm use && npm install && npm start```
 
 Client will run on localhost:3000
 
