@@ -19,12 +19,12 @@ button {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  min-width: 23%;
-  max-width: 23%;
+  min-width: 21%;
+  max-width: 21%;
   background-color: black;
   border-radius: 5px;
-  min-height: 18vh;
-  max-height: 18vh;
+  min-height: 17vh;
+  max-height: 17vh;
   margin: 1px;
 }
 
@@ -56,4 +56,23 @@ button {
   20%{opacity: 0.5;}
   50%{opacity: 0.75;}
   100%{opacity: 1;}
+}
+
+@media screen and (min-width: 800px) {
+  .cards {
+    width: 70%;
+  }
+  .card {
+    min-width: 22%;
+    max-width: 22%;
+    min-height: 17vh;
+    max-height: 17vh;
+    margin: 2px;
+  }
+  .avatar,
+  .avatarFound {
+    height: 18vh;
+    width: 100%;
+    margin: 2px;
+  }
 }
