@@ -18,7 +18,7 @@ const getAvatars = (state, payload) => {
 
 const setLoading = state => ({ ...state, avatarsLoading: true });
 
-const clearAvatars = state => ({ ...state, avatars: [] });
+const clearAvatars = state => ({ ...state, avatars: [], error: null });
 
 const setError = (state, error) => ({ ...state, avatars: [], avatarsLoading: false, error });
 
