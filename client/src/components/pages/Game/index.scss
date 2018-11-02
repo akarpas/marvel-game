@@ -52,6 +52,12 @@ button {
   animation: blink 1s linear infinite;
 }
 
+.error {
+  color: #F0151E;
+  text-align: center;
+  font-size: 2rem;
+}
+
 @keyframes blink {
   20%{opacity: 0.5;}
   50%{opacity: 0.75;}
@@ -71,7 +77,7 @@ button {
   }
   .avatar,
   .avatarFound {
-    height: 18vh;
+    height: 17vh;
     width: 100%;
     margin: 2px;
   }
