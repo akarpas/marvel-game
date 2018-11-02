@@ -19,6 +19,7 @@ class Game extends React.Component {
       secondCard: '',
       revealedCards: [],
       score: 50,
+      error: null,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleTime = this.handleTime.bind(this);
@@ -43,8 +44,10 @@ class Game extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { history } = this.props;
-    const { avatars, avatarsLoading } = nextProps;
-    if (avatars.length === 16 && !avatarsLoading) {
+    const { avatars, avatarsLoading, error } = nextProps;
+    if (error) {
+      this.setState({ error });
+    } else if (avatars.length === 16 && !avatarsLoading) {
       setTimeout(() => {
         this.setState({ hideAll: true, gameStarted: true });
       }, 4000);
@@ -97,6 +100,7 @@ class Game extends React.Component {
       gameStarted,
       gameFinished,
       time,
+      error,
     } = this.state;
     const { avatars, avatarsLoading } = this.props;
     const completed = revealedCards.length === 16;
@@ -104,37 +108,42 @@ class Game extends React.Component {
 
     return (
       <Layout>
-        <div>
-          <div className={style.cards}>
-            {avatarsLoading && <div className={style.loading}>Cards are being loaded...</div>}
-            {avatars && avatars.map((avatar, index) => {
-              const id = `${avatar.hero}-${index}`;
-              const buttonKey = `${avatar.hero}${index}`;
-              const showCard = hideAll && firstCard !== id && secondCard !== id;
-              const cardFound = revealedCards.indexOf(id) !== -1;
-              return (
-                <button type="button" className={style.card} id={id} key={buttonKey} onClick={e => this.handleClick(e)}>
-                  <img
-                    style={showCard && !cardFound ? { visibility: 'hidden', opacity: 0 } : {}}
-                    className={cardFound ? style.avatarFound : style.avatar}
-                    src={avatar.image}
-                    alt={avatar.hero}
-                  />
-                </button>
-              );
-            })}
-          </div>
-          {gameStarted
+        <div className={style.cards}>
+          {avatarsLoading && !error && <div className={style.loading}>Cards are being loaded...</div>}
+          {error
             && (
-              <GameStats
-                score={score}
-                gameDone={completed}
-                handleEndTime={this.handleTime}
-                updateTime={this.updateTime}
-              />)}
-          {(gameFinished || completed)
-            && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={completed} />}
+            <div className={style.error}>
+                There has been a problem with the server. Try Again Later.<br />
+                It seems that the API call limit has been reached!
+            </div>
+            )}
+          {avatars && avatars.map((avatar, index) => {
+            const id = `${avatar.hero}-${index}`;
+            const buttonKey = `${avatar.hero}${index}`;
+            const showCard = hideAll && firstCard !== id && secondCard !== id;
+            const cardFound = revealedCards.indexOf(id) !== -1;
+            return (
+              <button type="button" className={style.card} id={id} key={buttonKey} onClick={e => this.handleClick(e)}>
+                <img
+                  style={showCard && !cardFound ? { visibility: 'hidden', opacity: 0 } : {}}
+                  className={cardFound ? style.avatarFound : style.avatar}
+                  src={avatar.image}
+                  alt={avatar.hero}
+                />
+              </button>
+            );
+          })}
         </div>
+        {gameStarted
+          && (
+            <GameStats
+              score={score}
+              gameDone={completed}
+              handleEndTime={this.handleTime}
+              updateTime={this.updateTime}
+            />)}
+        {(gameFinished || completed)
+          && <GameOver finalScore={score} remainingTime={remainingTime} hasCompleted={completed} />}
       </Layout>
     );
   }
