@@ -44,7 +44,7 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
       if (response.data.data.results.length) return { response, error: null };
       return next(boom.notFound('Something went wrong with the call! No results found.'))
     } catch (error) {
-      return next(boom.notFound('Something went wrong with the call: ', error));
+      return next(boom.tooManyRequests(error));
     }
   });
 
@@ -67,12 +67,16 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  // console.log('----------------------------------- ', err)
   const { output } = err;
+  // console.log('================================ ', output)
   const { payload } = output;
-  const { message, statusCode } = payload;
-  console.log('Status:', statusCode, 'Message:', message);
+  console.log('================================ ', payload)
+  const { message, statusCode, error } = payload;
+  console.log('Status:', statusCode, 'Message:', message, 'Error:', error);
   if (err.isServer) {
     console.error('Server error: ', err);
+    return res.status(err.output.statusCode).json(err.output.payload);
   }
   return res.status(err.output.statusCode).json(err.output.payload);
 });
