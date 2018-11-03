@@ -44,41 +44,66 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
       if (response.data.data.results.length) return { response, error: null };
       return next(boom.notFound('Something went wrong with the call! No results found.'))
     } catch (error) {
-      return next(boom.tooManyRequests(error));
+      const { response } = error;
+      const { status, statusText } = response;
+      return {
+        error: true,
+        status,
+        statusText
+      }
     }
   });
 
   const avatars = await axios.all(apiCalls).then(axios.spread((...response) => response));
+  if (avatars[0].error) {
+    const { status } = avatars[0]
+    if (status === 401) {
+      res.send({
+        statusCode: status,
+        error: 'Unauthorized!',
+        message: 'Unauthorized access to Marvel API.'
+      })
+    } else if (status === 429) {
+      res.send({
+        statusCode: status,
+        error: 'Too many requests!',
+        message: 'Too many requests to Marvel API. Limit reached. Try again later.',
+      })
+    }
+  } else {
+    const avatarImages = avatars.map((avatar, index) => {
+      const { response } = avatar;
+      const { results } = response.data.data;
+      const { thumbnail } = results[0];
+      const { path, extension } = thumbnail;
+      return { image: `${path.replace('http', 'https')}.${extension}`, hero: heroes[index] };
+    });
 
-  const avatarImages = avatars.map((avatar, index) => {
-    const { response } = avatar;
-    const { results } = response.data.data;
-    const { thumbnail } = results[0];
-    const { path, extension } = thumbnail;
-    return { image: `${path.replace('http', 'https')}.${extension}`, hero: heroes[index] };
-  });
-
-  const allAvatars = shuffle(avatarImages.concat(avatarImages));
-
-  res.status(200).send({
-    statusCode: 200,
-    avatars: allAvatars,
-  });
+    const allAvatars = shuffle(avatarImages.concat(avatarImages));
+    res.send({
+      statusCode: 200,
+      avatars: allAvatars,
+    });
+  }
 });
 
 app.use((err, req, res, next) => {
-  // console.log('----------------------------------- ', err)
   const { output } = err;
-  // console.log('================================ ', output)
   const { payload } = output;
-  console.log('================================ ', payload)
   const { message, statusCode, error } = payload;
-  console.log('Status:', statusCode, 'Message:', message, 'Error:', error);
   if (err.isServer) {
     console.error('Server error: ', err);
-    return res.status(err.output.statusCode).json(err.output.payload);
+    res.send({
+      statusCode,
+      error: err,
+      message,
+    });
   }
-  return res.status(err.output.statusCode).json(err.output.payload);
+  res.send({
+    statusCode,
+    error,
+    message,
+  });
 });
 
 module.exports = app;
