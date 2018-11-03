@@ -23,6 +23,7 @@ describe('get avatars from marvel api', () => {
     expect(newState).toEqual({
       avatars: [],
       avatarsLoading: true,
+      error: null,
     });
   });
 
@@ -44,6 +45,7 @@ describe('get avatars from marvel api', () => {
     expect(newState).toEqual({
       avatars: results,
       avatarsLoading: false,
+      error: null,
     });
   });
 });
