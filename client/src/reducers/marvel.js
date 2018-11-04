@@ -13,10 +13,10 @@ const INITIAL_STATE = {
 
 const getAvatars = (state, payload) => {
   const { avatars } = payload;
-  return { ...state, avatars, avatarsLoading: false };
+  return { ...state, avatars, avatarsLoading: false, error: null };
 };
 
-const setLoading = state => ({ ...state, avatarsLoading: true });
+const setLoading = state => ({ ...state, avatarsLoading: true, error: null });
 
 const clearAvatars = state => ({ ...state, avatars: [], error: null });
 

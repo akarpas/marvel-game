@@ -68,7 +68,4 @@ describe('container for cards', () => {
   it('contains 16 cards', () => {
     expect(wrapped.find('.card').length).toEqual(16);
   });
-  it('contains 16 images', () => {
-    expect(wrapped.find('img').length).toEqual(16);
-  });
 });

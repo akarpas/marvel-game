@@ -14,9 +14,9 @@
 
 Node version is lts/carbon
 
-```cd server && nvm use && npm install && npm start```
+**IMPORTANT:** *Before the server is started a* **local .env** *file is required with the API_KEY and the PRIVATE_KEY of Marvel as per the .env-example file*
 
-**IMPORTANT:** *For the server a local .env file is required with the API_KEY and the PRIVATE_KEY of Marvel as per the .env-example file*
+```cd server && nvm use && npm install && npm start```
 
 Server will run on localhost:5050 (no view just API to serve client)
 
@@ -26,10 +26,10 @@ Server will run on localhost:5050 (no view just API to serve client)
 Client will run on localhost:3000
 
 ### TESTING CLIENT
-```cd client && npm install && npm run test``` or ```cd client && npm install && npm run test:watch```
+```cd client && nvm use && npm install && npm run test``` or ```cd client && nvm use && npm install && npm run test:watch```
 
 ### TESTING SERVER
-```cd server && npm install && npm run test``` or ```cd server &&npm install && npm run test:watch```
+```cd server && nvm use && npm install && npm run test``` or ```cd server && nvm use && npm install && npm run test:watch```
 
 ### ADDITIONAL IMPROVEMENTS THAT CAN BE IMPLEMENTED
 1. Add tests for GameOver and GameStats components

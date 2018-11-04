@@ -110,13 +110,7 @@ class Game extends React.Component {
       <Layout>
         <div className={style.cards}>
           {avatarsLoading && !error && <div className={style.loading}>Cards are being loaded...</div>}
-          {error
-            && (
-            <div className={style.error}>
-                There has been a problem with the server. Try Again Later.<br />
-                It seems that the API call limit has been reached!
-            </div>
-            )}
+          {error && (<div className={style.error}>{error.message || error.error}</div>)}
           {avatars && avatars.map((avatar, index) => {
             const id = `${avatar.hero}-${index}`;
             const buttonKey = `${avatar.hero}${index}`;
