@@ -11,10 +11,6 @@
   },
   "author": "Andreas Karpasitis",
   "license": "ISC",
-  "engines": {
-    "node": "7.10.0",
-    "npm": "4.2.0"
-  },
   "jest": {
     "verbose": true
   },
