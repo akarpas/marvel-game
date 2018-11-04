@@ -58,17 +58,9 @@ app.post('/v1/api/fetch_cards', async (req, res, next) => {
   if (avatars[0].error) {
     const { status } = avatars[0]
     if (status === 401) {
-      res.send({
-        statusCode: status,
-        error: 'Unauthorized!',
-        message: 'Unauthorized access to Marvel API.'
-      })
+      return next(boom.unauthorized('Unauthorized access to Marvel API.'));
     } else if (status === 429) {
-      res.send({
-        statusCode: status,
-        error: 'Too many requests!',
-        message: 'Too many requests to Marvel API. Limit reached. Try again later.',
-      })
+      return next(boom.unauthorized('Too many requests to Marvel API. Limit reached. Try again later.'));
     }
   } else {
     const avatarImages = avatars.map((avatar, index) => {
